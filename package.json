@@ -2,13 +2,14 @@
   "name": "web",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "bun@1.4.0",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "shadcn": "node ./node_modules/shadcn/dist/index.js",
-    "shadcn:add": "node ./node_modules/shadcn/dist/index.js add"
+    "shadcn": "bunx shadcn@latest",
+    "shadcn:add": "bunx shadcn@latest add"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
