@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# blog-gen-web — Standalone Frontend
 
-## Getting Started
+Next.js 16 + shadcn UI for the blog-gen humanizer pipeline. 100% self-contained — backend URL env se switch hota hai, code change nahi.
 
-First, run the development server:
+## Quick Start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm ci
+cp .env.example .env.local   # edit if needed
+npm run dev                  # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Env Vars (1 jagah se backend badlo)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Var | Kahan | Example |
+|-----|-------|---------|
+| `NEXT_PUBLIC_API_URL` | browser + server | `http://127.0.0.1:8000` |
+| `API_BASE_URL` | server rewrites (`/api/*` proxy) | same as above |
+| `NEXT_PUBLIC_MOCK` | no-backend demo | `true` |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`src/lib/config.ts` → `apiUrl(path)` + `next.config.ts` rewrites use these. Hardcoded `127.0.0.1:8000` only fallback hai.
 
-## Learn More
+```bash
+# local backend
+NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
+API_BASE_URL=http://127.0.0.1:8000
+npm run dev
 
-To learn more about Next.js, take a look at the following resources:
+# no backend demo (mock data)
+NEXT_PUBLIC_MOCK=true npm run dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# production (Vercel Dashboard → Env Vars)
+NEXT_PUBLIC_API_URL=https://your-api.onrender.com
+API_BASE_URL=https://your-api.onrender.com
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Scripts
 
-## Deploy on Vercel
+```bash
+npm run dev       # dev server (Turbopack)
+npm run build     # production build — 3 routes: /, /post/[id], /_not-found
+npm run lint      # eslint (next/core-web-vitals)
+npx tsc --noEmit  # typecheck
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Standalone / Alag Repo
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Ye folder khud git root hai (`git filter-repo --subdirectory-filter web` done). Alag repo banane ke liye bas copy → `git init` → push. `src/**/*` me `@/` ke bahar koi import nahi, `node_modules/next` ke bahar ka code nahi.
+
+## Stack
+
+Next 16.3, React 19, Tailwind 4, shadcn (radix-nova), lucide-react, react-markdown
