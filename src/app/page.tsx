@@ -36,6 +36,16 @@ const STAGES: Record<string, string> = {
 };
 
 export default function HomePage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const redirect = params.get("redirect");
+    if (redirect) {
+      router.replace(redirect);
+    }
+  }, [router]);
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 space-y-8">
       <div className="relative overflow-hidden rounded-2xl border bg-gradient-to-br from-primary/[0.08] via-background to-muted/40 p-6 sm:p-8">

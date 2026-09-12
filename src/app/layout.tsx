@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -23,6 +24,8 @@ export const metadata: Metadata = {
     "AI blog generator with a self-hosted detector eval loop that humanizes content.",
 };
 
+const basePath = "/blog-gen-web";
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -30,6 +33,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <Script src={`${basePath}/config.js`} strategy="beforeInteractive" />
       <body className="min-h-full flex flex-col">
         <ThemeProvider>
           <TooltipProvider>
